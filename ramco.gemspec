@@ -1,6 +1,4 @@
-
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$:.push File.expand_path("../lib", __FILE__)
 require "ramco/version"
 
 Gem::Specification.new do |spec|
@@ -12,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Access RAMCOAMS in ruby.}
   spec.description   = %q{A simple ruby API for accessing RAMCOAMS.}
-  spec.homepage      = "https://github.com/message-blocks/ramco-ruby"
+  spec.homepage      = "https://github.com/message-blocks/ramco"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split("\n")
@@ -22,7 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'faraday', '~> 0.9'
   spec.add_dependency 'faraday_middleware', '~> 0.9'
-  #s.add_dependency 'hashie', '~> 3.3.2'
   spec.add_dependency 'multi_json', '~> 1.3'
   spec.add_dependency 'typhoeus', '~> 0.7.0'
   
@@ -32,6 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'json_pure'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'vcr'
-  #spec.add_development_dependency 'uuidtools'
   spec.add_development_dependency 'pry-byebug'
 end

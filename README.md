@@ -24,7 +24,7 @@ Instantiate the client using a provided RAMCOAMS API key:
   
     ramco = Ramco.api_key("api_key")
 
-##GetEntity
+## GetEntity
 
 Fetch the attributes and/or relationships of one specific entity using guid.
 
@@ -35,7 +35,7 @@ Fetch the attributes and/or relationships of one specific entity using guid.
     * Guid = guid of entity to return
     * Attributes = comma separated list of attributes to return
     
-##GetEntities
+## GetEntities
 
 Fetch the attributes and/or relationships of multiple entities of one type using a user-defined filter.
 
@@ -48,19 +48,19 @@ Fetch the attributes and/or relationships of multiple entities of one type using
     * StringDelimiter (optional) = User-specified delimiter used to wrap string values (default is #)
     * MaxResults (optional) = Maximum number of entities to return
     
-##GetEntityMetadata
+## GetEntityMetadata
 
 Fetch metadata on entity type Contact (includes entity description, attributes and relationships).
 
     ramco.get_entity_metadata({"entity" => "Contact"})
 
-##GetEntityTypes
+## GetEntityTypes
 
 Fetch all entities in the system.
 
     ramco.get_entity_types
 
-##GetOptionSet
+## GetOptionSet
 
 Fetch the valid value/label pairs for the specified OptionSet (what Ramco calls a picklist)
 
@@ -70,7 +70,7 @@ Fetch the valid value/label pairs for the specified OptionSet (what Ramco calls 
     * Entity = Name of entity being queried (ex: Contact)
     * Attribute= Name of the attribute being queried (ex: PreferredPhone)
 
-##ValidateUser
+## ValidateUser
 
 Returns the globally unique id of a contact that matches the provided cobalt_username and cobalt_password parameters. Returns a 422 error when there is no user with provided username/password combination.
 
@@ -80,7 +80,7 @@ Returns the globally unique id of a contact that matches the provided cobalt_use
     * cobalt_username = User’s username
     * cobalt_password = User’s password
 
-##ClearCache
+## ClearCache
 
 Clears the server-side metadata cache. If an entity or attribute has been added (or removed), then clearing the cache will permit the changes to be reflected immediately. The cache will normally expire every 24 hours.
 

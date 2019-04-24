@@ -1,4 +1,4 @@
-require 'faraday'
+require 'typhoeus/adapters/faraday'
 require 'faraday_middleware'
 require 'multi_json'
 

@@ -80,6 +80,55 @@ Returns the globally unique id of a contact that matches the provided cobalt_use
     * cobalt_username = User’s username
     * cobalt_password = User’s password
 
+## UpdateEntity
+
+Allows for modification of attributes of existing Entities.
+
+    ramco.update_entity({"entity" => "Contact", "guid" => "6868642f-0144-e811-9c17-00155d10120d", "attribute_values" => "FirstName=#Jane#,Birthday=1980-12-31,EmailVerified=true,NumChildren=3"})
+
+  * Post params:
+    * Entity = Type of entity being modified (ex: Contact)
+    * Guid = guid of entity being modified
+    * AttributeValues = Comma separated attribute=value pairs.
+    * StringDelimiter (optional) = User-specified delimiter used to wrap string values (default is #)
+
+### The AttributeValue parameter syntax
+
+A comma delimited list of attribute value pairs like: 
+
+    FirstName=#Joe#,Birthday=1980-12-31,EmailVerified=true,NumChildren=3
+
+Strings must be wrapped with a delimiter. The default delimiter is ‘#’ but a user-specified delimiter can be utilized by including the optional StringDelimiter param.
+
+OptionSets must be set to a numeric value valid for that optionset, or zero to clear current existing value. To determine values that are valid for an optionset, use the GetOptionSet api call.
+Note that when updating an attribute of type EntityReferene, usually only the guid needs to be specified. In cases where the EntityReference can be of more than one type (ex: OwnerId can be SystemUser or Team) the value must be type:guid (SystemUser:fb50333e-6b9f-e111-8d5d- 00155d000140).
+
+In instances where the string delimiter occurs in the string itself (ex: ‘Some#Text’), the delimiter must be Base64Encoded (ex: ‘SomeIw==Text’). Of course the option to change the delimiter using the StringDelimiter parameter exists as well.
+
+
+## CreateEntity
+
+Allows for creation of a new entity record.
+
+    ramco.create_entity({"entity" => "Contact", "attribute_values" => "FirstName=#Jane#,Birthday=1980-12-31,EmailVerified=true,NumChildren=3"})
+
+  * Post params:
+    * Entity = Type of entity being modified (ex: Contact)
+    * AttributeValues = Comma separated attribute=value pairs.
+    * StringDelimiter (optional) = User-specified delimiter used to wrap string values (default is #)
+
+### The AttributeValue parameter syntax
+
+The AttributeValue parameter for CreateEntity follows the same format as that for UpdateEntity.
+
+### PrimaryIdAttribute
+
+Every entity type has a PrimaryIdAttribute which can be determined with a GetEntityMetadata call. If a specific guid is desired for the entity being created, it can be added to the AttributeValues parameter along with the other specified values. If the PrimaryIdAttribute is not specified, one will be automatically generated.
+
+Example creating a Contact record (ContactId is PrimaryIdAttribute): 
+
+    FirstName=#John#,LastName=#Doe#,ContactId= 84a4d17f-2e48-4a4b-bb28-26f7c14fc926, Birthday=1980-12-31
+
 ## ClearCache
 
 Clears the server-side metadata cache. If an entity or attribute has been added (or removed), then clearing the cache will permit the changes to be reflected immediately. The cache will normally expire every 24 hours.

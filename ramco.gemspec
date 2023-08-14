@@ -18,16 +18,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'faraday', ['>= 1.7', '< 1.9.0']
-  spec.add_dependency 'faraday_middleware', '~> 1.2'
+  spec.add_dependency 'faraday', '~> 2.7'
   spec.add_dependency 'multi_json', '~> 1.15'
-  spec.add_dependency 'typhoeus', '~> 1.4'
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec', '~>3.1'
+  spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'json_pure'
   spec.add_development_dependency 'webmock'
-  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'vcr', '~> 6.0'
   spec.add_development_dependency 'pry-byebug'
 end

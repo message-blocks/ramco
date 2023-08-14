@@ -16,7 +16,13 @@ describe Ramco::Connection do
         VCR.use_cassette('authorized_request') do
           subject.post do |req|
             req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-            req.body = {"key" => subject.api_key, "operation" => "GetEntity", "entity" => "Contact", "guid" => "6868642f-0144-e811-9c17-00155d10120d", "attributes" => "ContactId,FirstName,LastName"}
+            req.body = {
+              "key" => subject.api_key,
+              "operation" => "GetEntity",
+              "entity" => "Contact",
+              "guid" => "6868642f-0144-e811-9c17-00155d10120d",
+              "attributes" => "ContactId,FirstName,LastName"
+            }.map{|k,v| "#{k}=#{v}"}.join("&")
           end
         end
       end

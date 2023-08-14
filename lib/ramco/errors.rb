@@ -1,5 +1,6 @@
 require 'json/ext'
 require 'multi_json'
+require 'faraday'
 
 class Ramco
   # Custom error class for rescuing from all Ramco errors
@@ -58,20 +59,30 @@ class Ramco
   class ServiceUnavailable < Error; end
 end
 
-module Faraday
-  class Response::RaiseRamcoError < Response::Middleware
-    ERROR_MAP = {
-      400 => Ramco::BadRequest,
-      401 => Ramco::Unauthorized,
-      422 => Ramco::InvalidUser,
-      500 => Ramco::InternalServerError,
-      502 => Ramco::BadGateway,
-      503 => Ramco::ServiceUnavailable
-    }
-
-    def on_complete(response)
-      key = response.body["ResponseCode"].to_i
-      raise ERROR_MAP[key].new(response) if ERROR_MAP.has_key? key
+module FaradayMiddleware
+  class RaiseHttpException < Faraday::Middleware
+    def call(env)
+      @app.call(env).on_complete do |response|
+        case JSON.parse(response.body)["ResponseCode"]
+        when 400
+          raise Ramco::BadRequest
+        when 401
+          raise Ramco::Unauthorized
+        when 422
+          raise Ramco::InvalidUser
+        when 500
+          raise Ramco::InternalServerError
+        when 502
+          raise Ramco::BadGateway
+        when 503
+          raise Ramco::ServiceUnavailable
+        end
+      end
     end
+  end
+
+  def initialize(app)
+    super app
+    @parser = nil
   end
 end

@@ -1,6 +1,5 @@
-require 'typhoeus/adapters/faraday'
-require 'faraday_middleware'
 require 'multi_json'
+require 'faraday'
 
 class Ramco
   class Connection < Faraday::Connection
@@ -11,17 +10,14 @@ class Ramco
     #
     # Ramco expects
     #   :key => "API Key"
-    
+
     def initialize(hash={})
       @hash = hash
       @api_key = hash[:api_key] if hash.has_key? :api_key
 
       super(hash[:api_url] || 'https://api.ramcoams.com/api/v2/') do |builder|
         yield builder if block_given?
-        builder.use     Faraday::Response::RaiseRamcoError
-        builder.use     FaradayMiddleware::EncodeJson
-        builder.use     FaradayMiddleware::ParseJson
-        builder.adapter :typhoeus
+        builder.use FaradayMiddleware::RaiseHttpException
       end
     end
   end
